@@ -72,7 +72,7 @@ chmod +x deploy.sh
 ./deploy.sh
 ```
 
-### 3. Manual Lifecycle Management
+### 4. Manual Lifecycle Management
 If you prefer manual control, use the standard Docker Compose workflow:
 ```bash
 # Build and start in detached mode
@@ -85,7 +85,7 @@ sudo docker-compose logs -f
 sudo docker-compose down
 ```
 
-### 4. Verification
+### 5. Verification
 Confirm the service is active and listening:
 ```bash
 # Check if container is running
