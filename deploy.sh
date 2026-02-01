@@ -4,7 +4,10 @@ echo "-------------------------------------------------------"
 echo "Starting Professional Deployment..."
 echo "-------------------------------------------------------"
 
-# Run the Docker Build
+# Stop and remove existing containers to prevent "Missing Image" errors
+sudo docker-compose down
+
+# Build and start fresh
 sudo docker-compose up -d --build
 
 # Get the Local IP Address
