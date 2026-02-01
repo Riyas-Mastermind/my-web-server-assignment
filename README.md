@@ -44,33 +44,53 @@ This project utilizes **Dual-Port Mapping** and **SSL Handshaking** to bridge th
 
 ## 🚀 Deployment & Automation
 
-### I. Security Key Generation
+### 1. Security Key Generation
 Before deployment, generate the unique SSL certificates for your host:
 ```bash
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
 -keyout nginx-selfsigned.key -out nginx-selfsigned.crt \
 -subj "/C=IN/ST=KA/L=BLR/O=Riyas-Mastermind/CN=localhost"
+```
 
-### II. Environment Preparation
+### 2. Environment Preparation
 Ensure the Docker daemon is active and your user has the necessary permissions:
 ```bash
-#Check Docker Status
+# Check Docker Status
 sudo systemctl status docker
 
-#Verify Git Configuration
+# Verify Git Configuration
 git config --list
+```
 
-#Make the script executable (One-time setup)
+### 3. Automated Execution
+To simplify the build process, a custom Bash script (deploy.sh) has been provided. It handles container cleanup, image rebuilding, and network IP detection.
+```bash
+# Make the script executable (One-time setup)
 chmod +x deploy.sh
 
-#Launch the automated deployment
+# Launch the automated deployment
 ./deploy.sh
+```
 
-#Build and start in detached mode
+### 3. Manual Lifecycle Management
+If you prefer manual control, use the standard Docker Compose workflow:
+```bash
+# Build and start in detached mode
 sudo docker-compose up -d --build
 
-#View real-time logs
+# View real-time logs
 sudo docker-compose logs -f
 
-#Shutdown and remove containers
+# Shutdown and remove containers
 sudo docker-compose down
+```
+
+### 4. Verification
+Confirm the service is active and listening:
+```bash
+# Check if container is running
+sudo docker ps
+
+# Test the connection locally
+curl -I http://localhost:8080
+```
