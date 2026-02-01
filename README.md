@@ -42,40 +42,49 @@ This project utilizes **Port Mapping** to bridge the gap between the isolated co
 
 ### 1. Environment Preparation
 Ensure the Docker daemon is active and your user has the necessary permissions:
+
+**Check Docker Status**
 ```bash
-# Check Docker Status
 sudo systemctl status docker
 
-# Verify Git Configuration
+**Verify Git Configuration**
+```bash
 git config --list
 
 ### 2. Automated Execution
 To simplify the build process, a custom Bash script (deploy.sh) has been provided. It handles container cleanup, image rebuilding, and network IP detection.
+
+**Make the script executable (One-time setup)**
 ```bash
-# Make the script executable (One-time setup)
 chmod +x deploy.sh
 
-# Launch the automated deployment
+**Launch the automated deployment**
+```bash
 ./deploy.sh
 
 ### 3. Manual Lifecycle Management
 If you prefer manual control, use the standard Docker Compose workflow:
+
+**Build and start in detached mode**
 ```bash
-# Build and start in detached mode
 sudo docker-compose up -d --build
 
-# View real-time logs
+**View real-time logs**
+```bash
 sudo docker-compose logs -f
 
-# Shutdown and remove containers
+**Shutdown and remove containers**
+```bash
 sudo docker-compose down
 
 ### 4. Verification
 Confirm the service is active and listening:
+
+**Check if container is running**
 ```bash
-# Check if container is running
 sudo docker ps
 
-# Test the connection locally
+**Test the connection locally**
+```bash
 curl -I http://localhost:8080
 
