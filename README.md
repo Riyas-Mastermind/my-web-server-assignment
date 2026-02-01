@@ -38,3 +38,15 @@ docker --version
 
 # Ensure the Docker daemon is active
 sudo systemctl status docker
+
+### II. Quick Deploy
+This project includes a deployment script that builds the environment and automatically displays the Access URL/IP:
+```bash
+./deploy.sh
+
+
+### III. Push everything to GitHub
+```bash
+git add .
+git commit -m "feat: added automated deployment script with IP detection"
+git push
