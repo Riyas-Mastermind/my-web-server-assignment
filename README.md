@@ -1,52 +1,81 @@
-# Ubuntu Web Server Deployment with Docker & Git
-# 🌐 Scalable Ubuntu-Nginx Web Architecture
-> **Status:** Production Ready | **Version:** 1.1.0 | **Author:** Riyas-Mastermind
+# 🌐 Enterprise Ubuntu-Nginx Containerized Infrastructure
+> **Status:** Production Ready | **Version:** 2.0.0 | **Maintainer:** Riyas-Mastermind
 
 ## 📝 Executive Summary
-This project outlines a standardized approach to deploying web services using an Ubuntu-based containerized environment. By utilizing a declarative configuration model (Docker Compose), we ensure that the web server infrastructure is **immutable**, **reproducible**, and **portable**.
+This repository demonstrates a standardized approach to deploying high-performance web services using an **Ubuntu-based containerized environment**. By leveraging **Infrastructure as Code (IaC)** via Docker Compose, we ensure that the web server environment is **immutable**, **portable**, and **reproducible** across any Linux-based host.
 
 ---
 
 ## 🏗️ System Architecture & Data Flow
 
+The deployment follows a **decoupled layered architecture**, separating the host operating system from the service runtime.
 
-
-The deployment follows a layered architecture:
-1.  **Orchestration Layer:** Docker Compose manages the lifecycle.
-2.  **Container Layer:** A hardened Ubuntu image running an Nginx process.
-3.  **Application Layer:** A static HTML payload injected into the web root.
-4.  **Network Layer:** A bridge network mapping high-level host ports to standard service ports.
+1.  **Orchestration Layer:** Docker Compose manages the service lifecycle and resource allocation.
+2.  **Container Layer:** A hardened Ubuntu 22.04 LTS image running a background Nginx process.
+3.  **Application Layer:** A modern, CSS3-styled "Glassmorphism" dashboard injected into the web root.
+4.  **Network Layer:** A Docker Bridge Network providing isolation and port-forwarding.
 
 ### 🔌 Technical Specifications
-| Component | Specification | Purpose |
+| Component | Specification | Rationale |
 | :--- | :--- | :--- |
-| **Base OS** | Ubuntu 22.04 LTS | Security and stability |
-| **Web Server** | Nginx Open Source | High-performance content delivery |
-| **HTTP Port** | 80 (Internal) -> 8080 (External) | Standard web traffic |
-| **HTTPS Port** | 443 (Internal) -> 443 (External) | Secure traffic readiness |
-| **Storage** | Layered Image FS | Immutable deployment |
+| **Base OS** | Ubuntu 22.04 LTS | Enterprise-grade stability & security |
+| **Web Server** | Nginx (Stable) | High-concurrency content delivery |
+| **Orchestrator** | Docker Compose v3.8 | Declarative configuration management |
+| **HTTP Ingress** | Port 8080 (Host) | Avoids conflicts with standard Port 80 |
+| **Networking** | Default Bridge | Network isolation from host stack |
 
 ---
 
-## 🛠️ Step-by-Step Technical Instructions
+## 🌐 Networking & Port Logic
 
-### I. Environment Initialization
-Before deployment, verify your local Ubuntu environment:
+This project utilizes **Port Mapping** to bridge the gap between the isolated container and the external network.
+
+> **Logic:** `HOST_PORT : CONTAINER_PORT`
+
+* **8080 : 80** -> Directs external web requests from your browser to the internal Nginx engine.
+* **443 : 443** -> Reserved for future SSL/TLS encrypted traffic.
+* **Virtual IP:** Docker assigns an internal IP (typically `172.17.x.x`) accessible only to the host.
+
+---
+
+## 🚀 Deployment & Automation
+
+### 1. Environment Preparation
+Ensure the Docker daemon is active and your user has the necessary permissions:
 ```bash
-# Verify Docker version
-docker --version
-
-# Ensure the Docker daemon is active
+# Check Docker Status
 sudo systemctl status docker
 
-### II. Quick Deploy
-This project includes a deployment script that builds the environment and automatically displays the Access URL/IP:
+# Verify Git Configuration
+git config --list
+
+### 2. Automated Execution
+To simplify the build process, a custom Bash script (deploy.sh) has been provided. It handles container cleanup, image rebuilding, and network IP detection.
 ```bash
+# Make the script executable (One-time setup)
+chmod +x deploy.sh
+
+# Launch the automated deployment
 ./deploy.sh
 
-
-### III. Push everything to GitHub
+### 3. Manual Lifecycle Management
+If you prefer manual control, use the standard Docker Compose workflow:
 ```bash
-git add .
-git commit -m "feat: added automated deployment script with IP detection"
-git push
+# Build and start in detached mode
+sudo docker-compose up -d --build
+
+# View real-time logs
+sudo docker-compose logs -f
+
+# Shutdown and remove containers
+sudo docker-compose down
+
+### 4. Verification
+Confirm the service is active and listening:
+```bash
+# Check if container is running
+sudo docker ps
+
+# Test the connection locally
+curl -I http://localhost:8080
+
