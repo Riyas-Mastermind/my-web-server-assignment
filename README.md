@@ -44,15 +44,7 @@ This project utilizes **Dual-Port Mapping** and **SSL Handshaking** to bridge th
 
 ## 🚀 Deployment & Automation
 
-### 1. Security Key Generation
-Before deployment, generate the unique SSL certificates for your host:
-```bash
-openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
--keyout nginx-selfsigned.key -out nginx-selfsigned.crt \
--subj "/C=IN/ST=KA/L=BLR/O=Riyas-Mastermind/CN=localhost"
-```
-
-### 2. Environment Preparation
+### 1. Environment Preparation
 Ensure the Docker daemon is active and your user has the necessary permissions:
 ```bash
 # Check Docker Status
@@ -60,6 +52,14 @@ sudo systemctl status docker
 
 # Verify Git Configuration
 git config --list
+```
+
+### 2. Security Key Generation
+Before deployment, generate the unique SSL certificates for your host:
+```bash
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+-keyout nginx-selfsigned.key -out nginx-selfsigned.crt \
+-subj "/C=IN/ST=KA/L=BLR/O=Riyas-Mastermind/CN=localhost"
 ```
 
 ### 3. Automated Execution
