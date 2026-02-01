@@ -1,24 +1,27 @@
 #!/bin/bash
 
 echo "-------------------------------------------------------"
-echo "Starting Professional Deployment..."
+echo "Starting Professional Alpine Deployment..."
 echo "-------------------------------------------------------"
 
-# Stop and remove existing containers to prevent "Missing Image" errors
-sudo docker-compose down
+# 1. Stop and remove existing containers and clean up orphaned networks
+sudo docker-compose down --remove-orphans
 
-# Build and start fresh
+# 2. Build and start fresh (silencing the clutter, but showing errors)
 sudo docker-compose up -d --build
 
-# Get the Local IP Address
+# 3. Get the Local IP Address
 IP_ADDR=$(hostname -I | awk '{print $1}')
 
 echo ""
-echo "DEPLOYMENT COMPLETE"
+echo "DEPLOYMENT SUCCESSFUL"
 echo "-------------------------------------------------------"
 echo "ACCESS YOUR SERVER AT:"
-echo "--> http://$IP_ADDR:8080"
-echo "--> http://localhost:8080"
+echo "--> HTTP:  http://$IP_ADDR:8080"
+echo "--> HTTPS: https://$IP_ADDR"
 echo "-------------------------------------------------------"
-echo "CONTAINER STATUS:"
-sudo docker ps --filter "name=web-server" --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+echo "CONTAINER HEALTH:"
+
+# Updated to look for your specific container name 'web-server-riyas'
+sudo docker ps --filter "name=web-server-riyas" --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+echo "-------------------------------------------------------"

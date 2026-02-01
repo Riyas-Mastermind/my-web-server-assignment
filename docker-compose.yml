@@ -1,9 +1,25 @@
 version: '3.8'
 
 services:
-  web-server:           
-    build: .            
-    image: "my-ubuntu-webserver" 
-    ports:              
-      - "8080:80"       
-      - "443:443"       
+  web-server:
+    build: .
+    # Use a clear name so you don't see random strings in your terminal
+    container_name: web-server-riyas
+    
+    # Updated image name to reflect your play/custom version
+    image: "my-custom-webserver:latest"
+    
+    ports:
+      - "8080:80"   # Access your site at http://localhost:8080
+      - "443:443"   # Access secure traffic at https://localhost
+    
+    # Ensures the server restarts if your Ubuntu machine reboots
+    restart: always
+
+    # Keeps your container organized in a dedicated virtual network
+    networks:
+      - web_network
+
+networks:
+  web_network:
+    driver: bridge

@@ -1,13 +1,18 @@
-FROM ubuntu:latest
+FROM alpine:latest
 
-ARG DEBIAN_FRONTEND=noninteractive
+RUN apk add --no-cache nginx openssl
 
-RUN apt-get update && apt-get install -y nginx
+# Create necessary folders
+RUN mkdir -p /run/nginx /etc/ssl/private
 
-COPY index.html /var/www/html/index.html 
-#copy our local HTML file to the default Nginx web folder
+# Copy the keys we generated
+COPY nginx-selfsigned.crt /etc/ssl/certs/
+COPY nginx-selfsigned.key /etc/ssl/private/
 
-EXPOSE 80
-EXPOSE 443
+# Copy the custom config and your website
+COPY default.conf /etc/nginx/http.d/default.conf
+COPY index.html /usr/share/nginx/html/index.html
+
+EXPOSE 80 443
 
 CMD ["nginx", "-g", "daemon off;"]
