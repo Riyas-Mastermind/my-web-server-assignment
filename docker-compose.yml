@@ -4,15 +4,21 @@ services:
   web-server:
     build: .
     # Use a clear name so you don't see random strings in your terminal
-    container_name: web-server-riyas
+    container_name: web-server-riyas12
     
     # Updated image name to reflect your play/custom version
-    image: "my-custom-webserver:latest"
+    image: "1my-custom-webserver:latest"
     
     ports:
       - "8080:80"   # Access your site at http://localhost:8080
       - "443:443"   # Access secure traffic at https://localhost
-    
+
+    volumes:
+      - /home/riyas/Docker/my-web-server-assignment/secure-alpine-nginx-infra/index.html:/usr/share/nginx/html/index.html:rw
+      - /home/riyas/Docker/my-web-server-assignment/secure-alpine-nginx-infra/default.conf:/etc/nginx/http.d/default.conf:rw
+      - /home/riyas/Docker/my-web-server-assignment/secure-alpine-nginx-infra/nginx-selfsigned.crt:/etc/ssl/certs/nginx-selfsigned.crt:rw
+      - /home/riyas/Docker/my-web-server-assignment/secure-alpine-nginx-infra/nginx-selfsigned.key:/etc/ssl/private/nginx-selfsigned.key:rw
+
     # Ensures the server restarts if your Ubuntu machine reboots
     restart: always
 
